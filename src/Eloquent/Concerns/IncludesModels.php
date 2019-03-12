@@ -144,8 +144,6 @@ trait IncludesModels
             return $this->includePaths[$path] ?: null;
         }
 
-        return collect(explode('.', $path))->map(function ($segment) {
-            return Str::camelize($segment);
-        })->implode('.');
+        return $path;
     }
 }

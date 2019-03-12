@@ -38,7 +38,6 @@ use Neomerx\JsonApi\Contracts\Encoder\Parameters\EncodingParametersInterface;
  */
 abstract class AbstractResourceAdapter implements ResourceAdapterInterface, StoreAwareInterface
 {
-
     use StoreAwareTrait,
         InvokesHooks,
         ChecksMediaTypes,
@@ -200,11 +199,9 @@ abstract class AbstractResourceAdapter implements ResourceAdapterInterface, Stor
      * @param $field
      * @return string|null
      */
-    protected function methodForRelation($field)
+    protected function methodForRelation($method)
     {
-        $method = Str::camelize($field);
-
-        return method_exists($this, $method) ? $method : null;
+        return method_exists($this, $method) ? $method : Str::camelize($method);
     }
 
     /**
@@ -344,5 +341,4 @@ abstract class AbstractResourceAdapter implements ResourceAdapterInterface, Stor
             'saved',
         ], $record, $resource);
     }
-
 }

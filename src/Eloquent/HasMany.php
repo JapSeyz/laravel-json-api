@@ -176,14 +176,13 @@ class HasMany extends AbstractManyRelation
      */
     protected function findRelated($record, array $relationship)
     {
-        $inverse = $this->getRelation($record, $this->key)->getRelated();
-        $related = $this->findToMany($relationship);
+        $relation = $this->getRelation($record, $this->key);
 
-        $related = collect($related)->filter(function ($model) use ($inverse) {
-            return $model instanceof $inverse;
+        $key = $relation->getRelatedPivotKeyName();
+        $id = $relation->getRelatedKeyName();
+
+        return collect($relationship['data'])->map(function ($arr) use ($key, $id) {
+            return [$key => $arr[$id]];
         });
-
-        return new Collection($related);
     }
-
 }
